@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutterappchallenge/UI/Screens/SignIn.dart';
+import 'package:flutterappchallenge/UI/Screens/SignUp.dart';
+
+import 'UI/Screens/Home.dart';
 
 void main() => runApp(MyApp());
 
@@ -20,7 +24,14 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      routes: {
+        // When navigating to the "/" route, build the FirstScreen widget.
+        '/login': (context) => SignUp(),
+        // When navigating to the "/second" route, build the SecondScreen widget.
+        '/signUp': (context) => SignIn(),
+        '/home': (context) => Home(),
+      },
+      home: SignUp(),
     );
   }
 }
