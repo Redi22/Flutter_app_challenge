@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutterappchallenge/UI/Screens/PickUps.dart';
+import 'package:flutterappchallenge/UI/Screens/PostDonations.dart';
 import 'package:flutterappchallenge/UI/Screens/RootPage.dart';
 import 'package:flutterappchallenge/UI/Screens/SignIn.dart';
 import 'package:flutterappchallenge/UI/Screens/SignUp.dart';
 
 import 'UI/Screens/Home.dart';
+import 'UI/Screens/Profile.dart';
 
 void main() => runApp(MyApp());
 
@@ -14,7 +17,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.green,
       ),
       routes: {
         // When navigating to the "/" route, build the FirstScreen widget.
@@ -23,7 +26,7 @@ class MyApp extends StatelessWidget {
         '/signUp': (context) => SignIn(),
         '/home': (context) => Home(),
       },
-      home: RootPage(),
+      home: PickUps(),
     );
   }
 }
