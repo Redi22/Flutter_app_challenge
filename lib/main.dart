@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutterappchallenge/UI/Screens/Chat.dart';
 import 'package:flutterappchallenge/UI/Screens/PickUps.dart';
 import 'package:flutterappchallenge/UI/Screens/PostDonations.dart';
 import 'package:flutterappchallenge/UI/Screens/RootPage.dart';
 import 'package:flutterappchallenge/UI/Screens/SignIn.dart';
 import 'package:flutterappchallenge/UI/Screens/SignUp.dart';
 
+import 'UI/Screens/AllPickUps.dart';
+import 'UI/Screens/ChatList.dart';
+import 'UI/Screens/DonationDetail.dart';
 import 'UI/Screens/Home.dart';
 import 'UI/Screens/Profile.dart';
 
@@ -26,7 +30,7 @@ class MyApp extends StatelessWidget {
         '/signUp': (context) => SignIn(),
         '/home': (context) => Home(),
       },
-      home: PickUps(),
+      home: DonationDetail(),
     );
   }
 }
