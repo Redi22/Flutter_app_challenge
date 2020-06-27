@@ -16,6 +16,14 @@ class _ChatListState extends State<ChatList> {
       padding: const EdgeInsets.all(8.0),
       child: ListView(
         children: <Widget>[
+          Center(
+              child: Padding(
+            padding: const EdgeInsets.all(6.0),
+            child: Text(
+              "Messages",
+              style: TextStyle(fontSize: 18),
+            ),
+          )),
           InkWell(
             onTap: () {
               Navigator.of(context)

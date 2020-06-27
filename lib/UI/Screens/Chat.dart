@@ -34,6 +34,7 @@ class _ChatState extends State<Chat> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color(0xff02DB96),
         title: Text(username),
       ),
       body: SafeArea(
@@ -59,27 +60,30 @@ class _ChatState extends State<Chat> {
   Row _bottomBar(BuildContext context) {
     return Row(
       children: <Widget>[
-        IconButton(
-          onPressed: () {},
-          icon: Icon(Icons.tag_faces),
-        ),
         Expanded(
-          child: TextField(
-              textInputAction: TextInputAction.send,
-              controller: _controller,
-              decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.symmetric(
-                    vertical: 10.0,
-                    horizontal: 15.0,
-                  ),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0)),
-                  hintText: "Type message ")),
+          child: Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: TextField(
+                textInputAction: TextInputAction.send,
+                controller: _controller,
+                decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.symmetric(
+                      vertical: 10.0,
+                      horizontal: 15.0,
+                    ),
+                    suffixIcon: IconButton(
+                      onPressed: () => _save(),
+                      icon: Icon(Icons.send),
+                    ),
+                    prefixIcon: IconButton(
+                      onPressed: () => _save(),
+                      icon: Icon(Icons.attach_file),
+                    ),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30.0)),
+                    hintText: "Type message ")),
+          ),
         ),
-        IconButton(
-          onPressed: () => _save(),
-          icon: Icon(Icons.send),
-        )
       ],
     );
   }
