@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutterappchallenge/Core/services/firebase_auth_service.dart';
 import 'package:flutterappchallenge/UI/Screens/Chat.dart';
 import 'package:flutterappchallenge/UI/Screens/PickUps.dart';
 import 'package:flutterappchallenge/UI/Screens/PostDonations.dart';
 import 'package:flutterappchallenge/UI/Screens/RootPage.dart';
 import 'package:flutterappchallenge/UI/Screens/SignIn.dart';
 import 'package:flutterappchallenge/UI/Screens/SignUp.dart';
+import 'package:provider/provider.dart';
 
 import 'UI/Screens/AllPickUps.dart';
 import 'UI/Screens/ChatList.dart';
@@ -18,19 +20,22 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.green,
+    return Provider<FirebaseAuthService>(
+      create: (_) => FirebaseAuthService(),
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.green,
+        ),
+        routes: {
+          // When navigating to the "/" route, build the FirstScreen widget.
+          '/login': (context) => SignUp(),
+          // When navigating to the "/second" route, build the SecondScreen widget.
+          '/signUp': (context) => SignIn(),
+          '/home': (context) => Home(),
+        },
+        home: SignIn(),
       ),
-      routes: {
-        // When navigating to the "/" route, build the FirstScreen widget.
-        '/login': (context) => SignUp(),
-        // When navigating to the "/second" route, build the SecondScreen widget.
-        '/signUp': (context) => SignIn(),
-        '/home': (context) => Home(),
-      },
-      home: DonationDetail(),
     );
   }
 }
