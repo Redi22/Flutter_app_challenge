@@ -1,42 +1,23 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterappchallenge/Core/Models/User_model.dart';
+import 'package:flutterappchallenge/Core/services/firebase_auth_service.dart';
 import 'package:flutterappchallenge/UI/Screens/Home.dart';
 import 'package:flutterappchallenge/UI/Screens/SignIn.dart';
+import 'package:provider/provider.dart';
 
-import 'PickUps.dart';
-
-class RootPage extends StatefulWidget {
-  @override
-  _RootPageState createState() => _RootPageState();
-}
-
-enum AuthStatus { notSignedIn, signedIn }
-
-class _RootPageState extends State<RootPage> {
-  AuthStatus _authStatus = AuthStatus.notSignedIn;
-  Future<String> findCurrentUser() async {
-    FirebaseUser user = await FirebaseAuth.instance.currentUser();
-    return user.uid;
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    findCurrentUser().then((userId) {
-      setState(() {
-        _authStatus =
-            userId == null ? AuthStatus.notSignedIn : AuthStatus.signedIn;
-      });
-    });
-  }
-
+class RootPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    switch (_authStatus) {
-      case AuthStatus.notSignedIn:
-        return new SignIn();
-      case AuthStatus.signedIn:
-        return PickUps();
-    }
+    final auth = Provider.of<FirebaseAuthService>(context, listen: false);
+    return StreamBuilder<User>(
+        stream: auth.onAuthStateChanged,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.active) {
+            User user = snapshot.data;
+            return user != null ? Home() : SignIn();
+          }
+          return Center(child: CircularProgressIndicator());
+        });
   }
 }

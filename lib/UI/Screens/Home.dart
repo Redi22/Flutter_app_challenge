@@ -1,82 +1,56 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterappchallenge/Core/Models/Donation_model.dart';
+import 'package:flutterappchallenge/UI/Widgets/Donation.dart';
 import 'package:flutterappchallenge/UI/Widgets/RangeSelector.dart';
 
- enum dates{Today , Tomorrow , DayAfter}
-class Home extends StatelessWidget {
+var firestore = Firestore.instance;
+CollectionReference get DonationCollections =>
+    firestore.collection("Donations");
+
+class Home extends StatefulWidget {
   final String username;
   final String userId;
 
   const Home({Key key, this.username, this.userId}) : super(key: key);
 
   @override
+  _HomeState createState() => _HomeState();
+}
 
-
+class _HomeState extends State<Home> {
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-        body: Container(
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Center(child: Text("post donations" , style: TextStyle(fontWeight: FontWeight.bold , fontSize: 18 ),)),
-                ),
-                 Row(
-                   children: <Widget>[
-                     Container(
-                       height: 40.0,
-                       width: 200.0,
-                       color: Color(0x2202DB96),
-                       child: Padding(
-                         padding: const EdgeInsets.all(10.0),
-                         child: Text("Pickup: R-36 Mal.." , style: TextStyle(color: Color(0x9902DB96)),),
-                       ),
-                     ),
-                     Spacer(),
-                     Padding(
-                       padding: const EdgeInsets.all(10.0),
-                       child: InkWell(
-                         onTap: (){},
-                         child: Text("CHANGE" , style: TextStyle(fontSize: 14),),
-                       ),
-                     )
-                   ],
-                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical:4.0),
-                  child: TextField(
-                    onChanged: (value) => {
-                      print(value)
-                    },
-                    decoration: InputDecoration(
-                        labelText: "Food Name",
+        child: Scaffold(
+            body: Expanded(
+      child: StreamBuilder<List<DonationModel>>(
+        stream: getMessages(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          print(snapshot.data);
+          if (!snapshot.hasData)
+            return Center(child: CircularProgressIndicator());
+          return Donation(data: snapshot.data);
+        },
+      ),
+    )));
+  }
+}
 
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical:4.0),
-                  child: TextField(
-                    onChanged: (value) => {
-                      print(value)
-                    },
-                    decoration: InputDecoration(
-                        labelText: "Donate where?",
-                        prefix: Text("Give to:")
-                    ),
-                  ),
-                ),
+Stream<List<DonationModel>> getMessages() {
+  return DonationCollections.orderBy("time", descending: true)
+      .snapshots()
+      .map(mapToDonation);
+}
 
-                Padding(
-                  padding: const EdgeInsets.only(top: 12.0),
-
-
-        ),
-        ])
-    ))));
+List<DonationModel> mapToDonation(QuerySnapshot snapshot) {
+  try {
+    return snapshot.documents.map<DonationModel>((doc) {
+      return DonationModel.fromMap(doc.data);
+    }).toList();
+  } catch (e) {
+    print(e);
+    return <DonationModel>[];
   }
 }

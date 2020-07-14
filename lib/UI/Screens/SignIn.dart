@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutterappchallenge/Core/Models/User_model.dart';
+import 'package:flutterappchallenge/Core/services/firebase_auth_service.dart';
 import 'package:flutterappchallenge/UI/Screens/Home.dart';
+import 'package:provider/provider.dart';
 
 class SignIn extends StatefulWidget {
   static const String id = "SIGNIN";
@@ -11,7 +14,6 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
   String _email, _password;
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -135,9 +137,9 @@ class _SignInState extends State<SignIn> {
             ),
             Center(
                 child: InkWell(
-                  onTap: () {},
-                  child: Text("Forgot Password?"),
-                )),
+              onTap: () {},
+              child: Text("Forgot Password?"),
+            )),
           ],
         ),
       ),
@@ -146,22 +148,23 @@ class _SignInState extends State<SignIn> {
 
   Future<void> signIn() async {
     final formState = _formKey.currentState;
+    final auth = Provider.of<FirebaseAuthService>(context, listen: false);
 
     if (formState.validate()) {
       formState.save();
       print(_email);
       try {
-        await FirebaseAuth.instance.signInWithEmailAndPassword(
-            email: _email?.trim(), password: _password);
-        FirebaseUser user = await FirebaseAuth.instance.currentUser();
-        print(user.displayName);
+        final User user =
+            await auth.signInEmailAndPassword(_email?.trim(), _password);
+        print(user.username);
         Navigator.of(context).push(MaterialPageRoute(
-            builder: (_) => Home(username: user.email, userId: user.uid,)));
+            builder: (_) => Home(
+                  username: user.email,
+                  userId: user.userId,
+                )));
       } catch (e) {
         print(e.message);
       }
     }
   }
-
-
 }

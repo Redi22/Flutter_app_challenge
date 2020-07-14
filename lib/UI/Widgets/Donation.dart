@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutterappchallenge/UI/Widgets/CustomPhotoViewer.dart';
 
 class Donation extends StatelessWidget {
+  final data;
+
+  const Donation({Key key, this.data}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -42,12 +45,12 @@ class Donation extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      "4 Breads with ketchup",
+                      data.title,
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
                     ),
                     Container(
-                        child: Text("the description of the food is this aa?",
+                        child: Text(data.description,
                             textAlign: TextAlign.left,
                             style: TextStyle(
                                 color: Colors.black45, fontSize: 13))),
@@ -57,7 +60,7 @@ class Donation extends StatelessWidget {
                         child: Row(
                           children: <Widget>[
                             Text(
-                              "June 28, 2009",
+                              "${data.pickupTimeStart.time} - ${data.pickupTimeEnd.time}",
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 15,

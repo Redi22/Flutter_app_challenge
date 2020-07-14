@@ -29,7 +29,7 @@ class _PostDonationsState extends State<PostDonations> {
         child: Scaffold(
             body: Container(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0 ),
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -138,7 +138,7 @@ class _PostDonationsState extends State<PostDonations> {
                     "Time",
                     style: TextStyle(color: Colors.black38, fontSize: 14),
                   ),
-                  RangeSelector(),
+                  // RangeSelector(),
                 ],
               ),
             ),
@@ -163,15 +163,26 @@ class _PostDonationsState extends State<PostDonations> {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: CustomPhotoViewer(image: 'Assets/Images/guitar.jpg', height:  150, width: 100,),
+                  child: CustomPhotoViewer(
+                    image: 'Assets/Images/guitar.jpg',
+                    height: 150,
+                    width: 100,
+                  ),
                 ),
-                CustomPhotoViewer(image: 'Assets/Images/guitar.jpg' , height:  150, width: 100,),
+                CustomPhotoViewer(
+                  image: 'Assets/Images/guitar.jpg',
+                  height: 150,
+                  width: 100,
+                ),
               ],
             ),
             Spacer(),
             Padding(
               padding: const EdgeInsets.only(bottom: 20.0),
-              child: CustomBtn(buttonName: 'POST', function: postDonation, ),
+              child: CustomBtn(
+                buttonName: 'POST',
+                function: postDonation,
+              ),
             )
           ],
         ),
@@ -184,7 +195,6 @@ class _PostDonationsState extends State<PostDonations> {
       _radioValue1 = value;
     });
   }
-  void postDonation(){
 
-  }
+  void postDonation() {}
 }
